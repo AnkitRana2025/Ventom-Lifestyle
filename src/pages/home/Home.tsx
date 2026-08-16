@@ -1,342 +1,185 @@
 import React from "react";
-import {
-  Search,
-  Heart,
-  User,
-  ShoppingBag,
-} from "lucide-react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
-interface CategoryCardProps {
+interface Category {
   title: string;
   image: string;
+  itemCount?: string;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({
-  title,
-  image,
-}) => (
-  <div className="group relative h-[420px] w-full cursor-pointer overflow-hidden bg-stone-200">
+const CATEGORIES: Category[] = [
+  {
+    title: "Shirts",
+    image:
+      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&q=80&w=800",
+    itemCount: "24 Items",
+  },
+  {
+    title: "T-Shirts",
+    image:
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800",
+    itemCount: "18 Items",
+  },
+  {
+    title: "Trousers",
+    image:
+      "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?auto=format&fit=crop&q=80&w=800",
+    itemCount: "15 Items",
+  },
+  {
+    title: "Outerwear",
+    image:
+      "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=800",
+    itemCount: "12 Items",
+  },
+];
+
+const CategoryCard: React.FC<Category> = ({ title, image, itemCount }) => (
+  <a
+    href={`#${title.toLowerCase()}`}
+    className="group relative flex h-[380px] w-full flex-col justify-end overflow-hidden bg-stone-200 p-6 sm:h-[420px] lg:h-[460px] focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900 focus-visible:ring-offset-2"
+  >
+    {/* Card Image */}
     <img
       src={image}
       alt={title}
-      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      loading="lazy"
+      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
     />
 
-    <div className="absolute inset-0 bg-black/10 transition-opacity group-hover:bg-black/20" />
+    {/* Gradient Scrim for Contrast */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90" />
 
-    <div className="absolute bottom-8 left-8">
-      <h3 className="font-serif text-2xl font-light tracking-[0.15em] text-white uppercase">
-        {title}
-      </h3>
+    {/* Content Overlay */}
+    <div className="relative z-10 flex flex-col justify-end">
+      {itemCount && (
+        <span className="text-[10px] font-medium tracking-[0.2em] text-white/70 uppercase">
+          {itemCount}
+        </span>
+      )}
+      <div className="mt-1 flex items-center justify-between">
+        <h3 className="font-serif text-2xl font-light tracking-[0.1em] text-white uppercase sm:text-3xl">
+          {title}
+        </h3>
+        <span className="text-white opacity-0 transition-all duration-300 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0">
+          &rarr;
+        </span>
+      </div>
 
-      <div className="mt-2 h-[1px] w-8 bg-white/80 transition-all duration-300 group-hover:w-16" />
+      <div className="mt-3 h-px w-8 bg-white/60 transition-all duration-300 ease-out group-hover:w-full group-hover:bg-white" />
     </div>
-  </div>
+  </a>
 );
 
 const Home: React.FC = () => {
-  const categories = [
-    {
-      title: "Shirts",
-      image:
-        "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-      title: "T-Shirts",
-      image:
-        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-      title: "Trousers",
-      image:
-        "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-      title: "Outerwear",
-      image:
-        "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=800",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] font-sans text-stone-900 antialiased">
-      {/* ================= NAVBAR ================= */}
-      <header className="sticky top-0 z-50 border-b border-stone-200/50 bg-[#FAF8F5]/90 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-12">
+    <div className="min-h-screen bg-[#FAF8F5] font-sans text-stone-900 antialiased selection:bg-stone-900 selection:text-white">
+      <Navbar />
 
-          {/* Navigation */}
-          <nav className="hidden items-center space-x-8 text-xs font-semibold tracking-[0.15em] text-stone-700 uppercase md:flex">
-            <a
-              href="#men"
-              className="transition-colors hover:text-stone-900"
-            >
-              Men
-            </a>
+      {/* Hero Section */}
+      <section className="w-full px-0 sm:px-4 lg:px-8">
+        <div className="relative mx-auto h-[600px] w-full max-w-[1600px] overflow-hidden sm:h-[660px] lg:h-[720px] xl:h-[780px]">
+          {/* Hero Image */}
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=85&w=2400"
+              alt="Modern Heritage Collection"
+              fetchPriority="high"
+              className="h-full w-full object-cover object-center sm:object-[center_35%] lg:object-[center_30%]"
+            />
 
-            <a
-              href="#women"
-              className="transition-colors hover:text-stone-900"
-            >
-              Women
-            </a>
-
-            <a
-              href="#new-arrivals"
-              className="border-b border-stone-900 pb-0.5 text-stone-900"
-            >
-              New Arrivals
-            </a>
-
-            <a
-              href="#collections"
-              className="transition-colors hover:text-stone-900"
-            >
-              Collections
-            </a>
-
-            <a
-              href="#sale"
-              className="transition-colors hover:text-stone-900"
-            >
-              Sale
-            </a>
-          </nav>
-
-          {/* Brand */}
-          <div className="flex-1 text-center md:flex-initial">
-            <h1 className="font-serif text-2xl font-light tracking-[0.3em] text-stone-900 uppercase">
-              Velmont
-            </h1>
+            {/* Dark Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-6 text-stone-800">
-            <button
-              aria-label="Search"
-              className="transition-opacity hover:opacity-70"
-            >
-              <Search className="h-4 w-4 stroke-[1.5]" />
-            </button>
-
-            <button
-              aria-label="Favorites"
-              className="transition-opacity hover:opacity-70"
-            >
-              <Heart className="h-4 w-4 stroke-[1.5]" />
-            </button>
-
-            <button
-              aria-label="Account"
-              className="transition-opacity hover:opacity-70"
-            >
-              <User className="h-4 w-4 stroke-[1.5]" />
-            </button>
-
-            <button
-              aria-label="Cart"
-              className="relative transition-opacity hover:opacity-70"
-            >
-              <ShoppingBag className="h-4 w-4 stroke-[1.5]" />
-
-              <span className="absolute -top-1.5 -right-2 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-stone-900 text-[9px] text-white">
-                0
+          {/* Hero Content */}
+          <div className="relative z-10 flex h-full items-end px-6 pb-12 sm:px-10 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 xl:pb-24">
+            <div className="w-full max-w-xl">
+              {/* Eyebrow */}
+              <span className="inline-block text-[10px] font-semibold tracking-[0.25em] text-white/80 uppercase sm:text-xs">
+                Autumn / Winter 2026
               </span>
-            </button>
-          </div>
-        </div>
-      </header>
 
-      {/* ================= HERO ================= */}
-      <section className="relative h-[85vh] w-full overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&q=80&w=2000"
-          alt="Modern Heritage Collection"
-          className="h-full w-full object-cover object-top"
-        />
+              {/* Heading */}
+              <h1 className="mt-3 font-serif text-4xl font-light leading-[1.08] tracking-[0.04em] text-white uppercase sm:text-5xl lg:text-6xl xl:text-7xl">
+                New Season:
+                <br />
+                <span className="italic font-normal">Modern</span> Heritage
+              </h1>
 
-        <div className="absolute inset-0 bg-black/20" />
+              {/* Description */}
+              <p className="mt-4 max-w-sm text-xs font-light leading-relaxed tracking-wide text-stone-200 sm:text-sm">
+                Tailored performance and timeless silhouettes designed for those who move forward.
+              </p>
 
-        <div className="absolute inset-0 flex flex-col justify-end px-8 pb-16 lg:px-24 lg:pb-24">
-          <div className="max-w-xl">
+              {/* CTA Group */}
+              <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
+                <a
+                  href="#shop-men"
+                  className="inline-flex min-h-12 items-center justify-center bg-white px-8 text-xs font-semibold tracking-[0.2em] text-stone-900 uppercase transition-all duration-300 hover:bg-stone-200 active:scale-[0.98]"
+                >
+                  Shop Men
+                </a>
 
-            <span className="text-[10px] font-semibold tracking-[0.25em] text-white/80 uppercase">
-              Autumn / Winter 2026
-            </span>
-
-            <h2 className="mt-3 font-serif text-4xl font-light leading-tight tracking-[0.08em] text-white uppercase lg:text-5xl">
-              New Season:
-              <br />
-              Modern Heritage
-            </h2>
-
-            <p className="mt-4 text-xs font-light tracking-wide text-stone-200">
-              Designed for those who move forward.
-            </p>
-
-            <div className="mt-8 flex items-center space-x-4">
-              <a
-                href="#shop-men"
-                className="bg-black px-8 py-3.5 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-stone-800"
-              >
-                Shop Men
-              </a>
-
-              <a
-                href="#shop-women"
-                className="border border-white/80 bg-white/10 px-8 py-3.5 text-xs font-semibold tracking-[0.2em] text-white uppercase backdrop-blur-sm transition-all hover:bg-white hover:text-black"
-              >
-                Shop Women
-              </a>
+                <a
+                  href="#shop-women"
+                  className="inline-flex min-h-12 items-center justify-center border border-white/80 bg-black/20 px-8 text-xs font-semibold tracking-[0.2em] text-white uppercase backdrop-blur-md transition-all duration-300 hover:bg-white hover:text-stone-900 active:scale-[0.98]"
+                >
+                  Shop Women
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= CATEGORIES ================= */}
-      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-12">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category) => (
+      {/* Categories Section */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        {/* Section Heading */}
+        <div className="mb-10 flex items-end justify-between border-b border-stone-200 pb-5 sm:mb-12">
+          <div>
+            <span className="text-[10px] font-semibold tracking-[0.2em] text-stone-500 uppercase">
+              Explore
+            </span>
+            <h2 className="mt-1 font-serif text-3xl font-light tracking-[0.06em] text-stone-900 uppercase sm:text-4xl">
+              Collections
+            </h2>
+          </div>
+
+          <a
+            href="#collections"
+            className="hidden items-center gap-2 border-b border-stone-900 pb-1 text-xs font-semibold tracking-[0.15em] text-stone-900 uppercase transition-all duration-300 hover:opacity-60 sm:inline-flex"
+          >
+            <span>View All</span>
+            <span className="text-sm">&rarr;</span>
+          </a>
+        </div>
+
+        {/* Category Grid */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {CATEGORIES.map((category) => (
             <CategoryCard
               key={category.title}
               title={category.title}
               image={category.image}
+              itemCount={category.itemCount}
             />
           ))}
         </div>
+
+        {/* Mobile View All CTA */}
+        <div className="mt-10 text-center sm:hidden">
+          <a
+            href="#collections"
+            className="inline-block border-b border-stone-900 pb-1 text-xs font-semibold tracking-[0.15em] text-stone-900 uppercase"
+          >
+            View All Collections &rarr;
+          </a>
+        </div>
       </section>
 
-      {/* ================= FOOTER ================= */}
-      <footer className="bg-black text-stone-300">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
-
-            {/* Brand */}
-            <div>
-              <h4 className="font-serif text-lg tracking-[0.25em] text-white uppercase">
-                Velmont
-              </h4>
-
-              <p className="mt-4 max-w-xs text-xs font-light leading-relaxed text-stone-400">
-                Premium lifestyle essentials designed for modern heritage.
-              </p>
-            </div>
-
-            {/* Shop */}
-            <div>
-              <h5 className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
-                Shop
-              </h5>
-
-              <ul className="mt-4 space-y-2.5 text-xs">
-                <li>
-                  <a
-                    href="#men"
-                    className="transition-colors hover:text-white"
-                  >
-                    Men
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#women"
-                    className="transition-colors hover:text-white"
-                  >
-                    Women
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#new"
-                    className="transition-colors hover:text-white"
-                  >
-                    New Arrivals
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Customer Care */}
-            <div>
-              <h5 className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
-                Customer Care
-              </h5>
-
-              <ul className="mt-4 space-y-2.5 text-xs">
-                <li>
-                  <a
-                    href="#contact"
-                    className="transition-colors hover:text-white"
-                  >
-                    Contact Us
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#shipping"
-                    className="transition-colors hover:text-white"
-                  >
-                    Shipping & Returns
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#sizing"
-                    className="transition-colors hover:text-white"
-                  >
-                    Size Guide
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Follow */}
-            <div>
-              <h5 className="text-[10px] font-semibold tracking-[0.2em] text-stone-400 uppercase">
-                Follow
-              </h5>
-
-              <ul className="mt-4 space-y-2.5 text-xs">
-                <li>
-                  <a
-                    href="#instagram"
-                    className="transition-colors hover:text-white"
-                  >
-                    Instagram
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#twitter"
-                    className="transition-colors hover:text-white"
-                  >
-                    Twitter
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="#journal"
-                    className="transition-colors hover:text-white"
-                  >
-                    Journal
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-16 border-t border-stone-800 pt-8 text-center sm:text-left">
-            <p className="text-[10px] tracking-[0.15em] text-stone-500 uppercase">
-              © 2026 VELMONT PREMIUM LIFESTYLE. ALL RIGHTS RESERVED.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
