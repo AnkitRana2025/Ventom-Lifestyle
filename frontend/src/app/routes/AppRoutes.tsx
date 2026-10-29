@@ -12,18 +12,22 @@ import ProtectedRoute from "../protectedRoutes/ProtectedRoute";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
+    // =========================
+    // PUBLIC ROUTES
+    // =========================
     {
+      path: "/",
       element: <PublicRoute />,
       children: [
         {
           element: <AuthLayout />,
           children: [
             {
-              path: "/login",
+              index: true,
               element: <Login />,
             },
             {
-              path: "/register",
+              path: "register",
               element: <Register />,
             },
           ],
@@ -31,6 +35,9 @@ const AppRoutes = () => {
       ],
     },
 
+    // =========================
+    // PROTECTED ROUTES
+    // =========================
     {
       element: <ProtectedRoute />,
       children: [
